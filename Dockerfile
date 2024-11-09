@@ -1,18 +1,23 @@
 # Use a lightweight Python image
 FROM python:3.9-slim
 
-# Set up working directory
+# Use a lightweight Python image
+FROM python:3.9-slim
+
+# Set working directory
 WORKDIR /app
 
-# Copy requirements and install dependencies
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Copy app and model files
+COPY app.py /app/app.py
+COPY model.joblib /app/model.joblib
+COPY requirements.txt /app/requirements.txt
 
-# Copy application code
-COPY . .
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port Gradio will run on
+# Expose the Gradio app port
 EXPOSE 7860
 
-# Start the Gradio app
+# Run the application
 CMD ["python", "app.py"]
+
